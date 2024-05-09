@@ -36,6 +36,10 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+  mainClass.set("austral.ingsis.snippetperms.SnippetPermsApplicationKt")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
