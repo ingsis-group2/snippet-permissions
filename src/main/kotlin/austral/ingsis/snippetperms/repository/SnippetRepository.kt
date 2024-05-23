@@ -7,5 +7,7 @@ import org.springframework.data.repository.query.Param
 
 interface SnippetRepository : JpaRepository<Snippet, Long> {
     @Query("SELECT s FROM Snippet s WHERE s.writer = :writer")
-    fun findSnippetsByWriter(@Param("writer") writer: String): List<Snippet>
+    fun findSnippetsByWriter(
+        @Param("writer") writer: String,
+    ): List<Snippet>
 }

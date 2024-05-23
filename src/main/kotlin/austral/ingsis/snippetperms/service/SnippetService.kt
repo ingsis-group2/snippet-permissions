@@ -14,7 +14,6 @@ import java.time.LocalDateTime
 
 @Service
 class SnippetService {
-
     @Autowired
     private lateinit var snippetRepository: SnippetRepository
 
@@ -28,8 +27,8 @@ class SnippetService {
         if (userRepository.existsById(body.writer)) {
             val snippet = Snippet()
             snippet.writer = body.writer
-            val container = body.writer.hashCode() % 3   //how to create container
-            snippet.container =  container.toString()
+            val container = body.writer.hashCode() % 3 // how to create container
+            snippet.container = container.toString()
             val creation = snippetRepository.save(snippet)
             return ResponseEntity(
                 SnippetDTO(
@@ -38,13 +37,12 @@ class SnippetService {
                     creation.writer,
                     LocalDateTime.now(),
                     null,
-                    creation.container
+                    creation.container,
                 ),
-                HttpStatus.CREATED
+                HttpStatus.CREATED,
             )
         }
         return ResponseEntity(HttpStatus.CONFLICT)
-
     }
 
     /*
@@ -56,7 +54,7 @@ class SnippetService {
             val snippets = mutableListOf<SnippetLocation>()
             for (snippet in user.snippets) { // the ones that he can read
                 snippets.add(
-                    SnippetLocation(snippet.id, snippet.container)
+                    SnippetLocation(snippet.id, snippet.container),
                 )
             }
             return ResponseEntity(snippets.toList(), HttpStatus.OK)
@@ -91,7 +89,7 @@ class SnippetService {
             val snippets = mutableListOf<SnippetLocation>()
             for (snippet in snippetRepository.findSnippetsByWriter(user.id)) {
                 snippets.add(
-                    SnippetLocation(snippet.id, snippet.container)
+                    SnippetLocation(snippet.id, snippet.container),
                 )
             }
             return ResponseEntity(snippets.toList(), HttpStatus.OK)
@@ -99,11 +97,13 @@ class SnippetService {
         return ResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
-
     /*
         Returns snippet reference just if user can read it
      */
-    fun getSnippet(userId: String, snippetId: Long): ResponseEntity<SnippetLocation> {
+    fun getSnippet(
+        userId: String,
+        snippetId: Long,
+    ): ResponseEntity<SnippetLocation> {
         if (userRepository.existsById(userId) && snippetRepository.existsById(snippetId)) {
             val user = userRepository.findById(userId).get()
             val snippet = snippetRepository.findById(snippetId).get()

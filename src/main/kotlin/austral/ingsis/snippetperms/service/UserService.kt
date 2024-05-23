@@ -1,7 +1,6 @@
 package austral.ingsis.snippetperms.service
 
 import austral.ingsis.snippetperms.model.User
-import austral.ingsis.snippetperms.model.dto.SnippetDTO
 import austral.ingsis.snippetperms.model.dto.UserCreateDTO
 import austral.ingsis.snippetperms.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service
 
 @Service("user")
 class UserService {
-
     @Autowired
     lateinit var userRepository: UserRepository
 
