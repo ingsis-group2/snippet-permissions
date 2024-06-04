@@ -33,5 +33,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/ingsis-group2/snippet-perms:${{ steps.short-sha.outputs.sha }}
-                ghcr.io/ingsis-group2/snippet-perms:latest
+          tags: ghcr.io/ingsis-group2:${{ steps.short-sha.outputs.sha }}
