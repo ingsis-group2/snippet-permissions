@@ -14,15 +14,23 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: compose-db
-      DB_HOST: ${DB_HOST}
+      DB_HOST: db-snippet-permissions
       DB_PORT: ${DB_PORT}
+    networks:
+      - tista-work
 
   db-snippet-permissions:
     container_name: postgres_db
     image: postgres:12
     ports:
-    - ${DB_PORT}:5432
+      - ${DB_PORT}:5432
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: compose-db
+    networks:
+      - tista-work
+
+networks:
+  tista-work:
+    driver: bridge
