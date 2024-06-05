@@ -31,7 +31,15 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/ingsis-group2/snippet-permisiions-master:latest
-          build-args: |
-            GITHUB_ACTOR=${{ github.actor }}
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          tags: ghcr.io/ingsis-group2/snippet-permissions-master:latest
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_IP_MASTER }}
+          username: "azureuser"
+          key: ${{ secrets.PRIVATE_KEY_MASTER }}
+          script: |
+            cd snippet-infra
+            sudo docker compose -f docker-compose.master.yml stop snippet-permissions
+            sudo docker compose -f docker-compose.master.yml up snippet-permissions -d --build 
+
