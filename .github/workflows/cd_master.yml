@@ -10,7 +10,7 @@ on:
 
 jobs:
   push_snippet_permissions:
-    name: Push snippet-runner image to ghcr.io
+    name: Push snippet-permissions image to ghcr.io
     runs-on: ubuntu-latest
     steps:
       - name: Create Short SHA
