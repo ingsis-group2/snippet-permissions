@@ -5,7 +5,7 @@ services:
     container_name: "snippet-permissions"
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "8081:8081"
     env_file:
@@ -16,8 +16,6 @@ services:
       DB_NAME: compose-db
       DB_HOST: db-snippet-permissions
       DB_PORT: ${DB_PORT}
-    networks:
-      - tista-work
 
   db-snippet-permissions:
     container_name: postgres_db
@@ -28,9 +26,3 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: compose-db
-    networks:
-      - tista-work
-
-networks:
-  tista-work:
-    driver: bridge
