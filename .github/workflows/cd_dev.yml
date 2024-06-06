@@ -7,7 +7,6 @@ on:
       - dev
     types:
       - completed
-
 jobs:
   push_snippet_permissions:
     name: Push snippet-permissions image to ghcr.io
