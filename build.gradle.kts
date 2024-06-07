@@ -31,7 +31,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.okta.spring:okta-spring-boot-starter:3.0.5")
 }

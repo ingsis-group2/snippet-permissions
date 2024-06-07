@@ -7,7 +7,6 @@ on:
       - dev
     types:
       - completed
-
 jobs:
   push_snippet_permissions:
     name: Push snippet-permissions image to ghcr.io
@@ -31,8 +30,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          no-cache: true
           tags: ghcr.io/ingsis-group2/snippet-permissions-dev:latest
+          build-args: |
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_PORT=${{ secrets.DB_PORT }}
       - name: Deploy to VM
         uses: appleboy/ssh-action@master
         with:
