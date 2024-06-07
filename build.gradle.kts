@@ -32,7 +32,6 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("com.okta.spring:okta-spring-boot-starter:3.0.5")
 }
 
 tasks.withType<KotlinCompile> {
