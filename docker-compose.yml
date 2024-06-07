@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   snippet-permissions:
-    container_name: "snippet-permissions"
+    container_name: "snippet-permissions-solo"
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,8 +13,8 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: compose-db
-      DB_HOST: db-snippet-permissions
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
 
   db-snippet-permissions:
@@ -25,4 +25,4 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: compose-db
+      POSTGRES_DB: ${DB_NAME}
