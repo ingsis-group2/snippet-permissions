@@ -4,6 +4,7 @@ import austral.ingsis.snippetperms.model.SnippetCreate
 import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.service.SnippetService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,5 +31,10 @@ class SnippetController {
     @ResponseBody
     fun greet(): String {
         return "hi, you found me stranger"
+    }
+
+    @GetMapping("/greetBack")
+    fun greetBack(): ResponseEntity<String> {
+        return ResponseEntity("greeting back", HttpStatus.OK)
     }
 }
