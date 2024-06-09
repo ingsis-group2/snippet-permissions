@@ -17,16 +17,13 @@ class SnippetService(
         Creates a snippet for an existing user
      */
     fun createSnippet(body: SnippetCreate): ResponseEntity<SnippetLocation> {
-        if (body.writer.isBlank()) {
-            return ResponseEntity.badRequest().build()
-        }
-
         val container = body.writer.hashCode() % 3
         val snippet =
             Snippet().apply {
-                writer = body.writer
                 this.container = container.toString()
-                readers = mutableSetOf()
+                this.writer = body.writer
+                this.language = body.language
+                this.extension = body.extension
             }
 
         val creation = snippetRepository.save(snippet)
