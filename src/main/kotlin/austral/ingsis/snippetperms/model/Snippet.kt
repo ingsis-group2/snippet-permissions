@@ -21,7 +21,7 @@ class Snippet {
     @Column(nullable = false)
     var container: String = ""
 
-    @Column(nullable = false, unique = true, name = "snippet_writerId")
+    @Column(nullable = false, name = "snippet_writerId")
     var writer: String = ""
 
     @Column(nullable = false)
