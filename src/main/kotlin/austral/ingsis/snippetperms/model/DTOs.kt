@@ -19,6 +19,6 @@ data class SnippetDTO(
     val readers: List<String>,
     val creationDate: LocalDateTime,
     val updateDate: LocalDateTime?,
-    )
+)
 
 data class SnippetUpdate(val reader: String)

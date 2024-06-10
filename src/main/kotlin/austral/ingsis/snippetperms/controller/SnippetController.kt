@@ -35,7 +35,6 @@ class SnippetController {
         return this.snippetService.getSnippet(snippetId)
     }
 
-
     @GetMapping("/greet")
     @ResponseBody
     fun greet(): String {

@@ -1,6 +1,5 @@
 package austral.ingsis.snippetperms.service
 
-import austral.ingsis.snippetperms.SnippetPermsApplication
 import austral.ingsis.snippetperms.model.Snippet
 import austral.ingsis.snippetperms.model.SnippetCreate
 import austral.ingsis.snippetperms.model.SnippetDTO
@@ -53,8 +52,7 @@ class SnippetService(
             snippet.extension,
             snippet.readers.toList(),
             snippet.creationDate,
-            snippet.updateDate
+            snippet.updateDate,
         )
     }
-
 }
