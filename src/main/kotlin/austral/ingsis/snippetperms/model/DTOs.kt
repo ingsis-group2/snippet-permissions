@@ -21,4 +21,9 @@ data class SnippetDTO(
     val updateDate: LocalDateTime?,
 )
 
+data class SnippetLocation(
+    val id: Long,
+    val container: String,
+)
+
 data class SnippetUpdate(val reader: String)
