@@ -24,6 +24,7 @@ class SnippetService(
                 this.writer = body.writer
                 this.language = body.language
                 this.extension = body.extension
+                this.name = body.name
             }
 
         val creation = snippetRepository.save(snippet)
@@ -52,6 +53,27 @@ class SnippetService(
             }
             else -> ResponseEntity.notFound().build()
         }
+    }
+
+    fun getSnippetFromWriterById(writerId: String): ResponseEntity<List<SnippetDTO>> {
+        val snippets = this.snippetRepository.findSnippetsByWriter(writerId)
+        val snippetsDTO = mutableListOf<SnippetDTO>()
+        snippets.forEach { s -> snippetsDTO.add(this.dto(s)) }
+        return ResponseEntity.ok(snippetsDTO)
+    }
+
+    fun getSnippetByReaderById(userId: String): ResponseEntity<List<SnippetDTO>> {
+        val snippets = this.snippetRepository.findSnippetsByReader(userId)
+        val snippetsDTO = mutableListOf<SnippetDTO>()
+        snippets.forEach { s -> snippetsDTO.add(this.dto(s)) }
+        return ResponseEntity.ok(snippetsDTO)
+    }
+
+    fun getSnippetByReadeOrWriterById(userId: String): ResponseEntity<List<SnippetDTO>> {
+        val snippets = this.snippetRepository.findSnippetsByReader(userId)
+        val snippetDTOs = mutableListOf<SnippetDTO>()
+        snippets.forEach { s -> snippetDTOs.add(this.dto(s)) }
+        return ResponseEntity.ok(snippetDTOs)
     }
 
     fun deleteSnippet(snippetId: Long): ResponseEntity<Void> {
