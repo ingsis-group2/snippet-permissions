@@ -10,4 +10,14 @@ interface SnippetRepository : JpaRepository<Snippet, Long> {
     fun findSnippetsByWriter(
         @Param("writer") writer: String,
     ): List<Snippet>
+
+    @Query("SELECT s FROM Snippet s WHERE :userId MEMBER OF s.readers")
+    fun findSnippetsByReader(
+        @Param("userId") userId: String,
+    ): List<Snippet>
+
+    @Query("SELECT s FROM Snippet s WHERE s.writer = :userId OR :userId MEMBER OF s.readers")
+    fun findSnippetsByWriterOrReader(
+        @Param("userId") userId: String,
+    ): List<Snippet>
 }
