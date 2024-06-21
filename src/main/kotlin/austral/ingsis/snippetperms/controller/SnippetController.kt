@@ -47,7 +47,7 @@ class SnippetController {
     @DeleteMapping("/{id}")
     fun deleteSnippetById(
         @PathVariable("id") snippetId: Long,
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<SnippetLocation> {
         return this.snippetService.deleteSnippet(snippetId)
     }
 
