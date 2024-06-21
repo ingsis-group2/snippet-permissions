@@ -76,11 +76,13 @@ class SnippetService(
         return ResponseEntity.ok(snippetDTOs)
     }
 
-    fun deleteSnippet(snippetId: Long): ResponseEntity<Void> {
+    fun deleteSnippet(snippetId: Long): ResponseEntity<SnippetLocation> {
         return when {
             snippetRepository.existsById(snippetId) -> {
+                val snippet = this.snippetRepository.findById(snippetId).get()
                 this.snippetRepository.deleteById(snippetId)
-                return ResponseEntity.ok().build()
+                return ResponseEntity
+                    .ok(SnippetLocation(snippet.id, snippet.container))
             }
             else -> ResponseEntity.notFound().build()
         }
