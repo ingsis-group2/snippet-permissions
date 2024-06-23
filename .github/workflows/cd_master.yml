@@ -46,4 +46,5 @@ jobs:
           script: |
             cd snippet-infra
             sudo docker compose -f docker-compose.master.yml stop snippet-permissions
+            sudo docker compose -f docker-compose.master.yml pull snippet-permissions
             sudo docker compose -f docker-compose.master.yml up snippet-permissions -d --build 
