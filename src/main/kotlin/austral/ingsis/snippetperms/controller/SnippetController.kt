@@ -17,10 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.filter.RequestContextFilter
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
 
 @Controller
 @RequestMapping("/snippet")
 class SnippetController {
+    @Autowired
+    private lateinit var requestMappingHandlerAdapter: RequestMappingHandlerAdapter
+
+    @Autowired
+    private lateinit var requestContextFilter: RequestContextFilter
+
     @Autowired
     private lateinit var snippetService: SnippetService
 
@@ -46,29 +54,29 @@ class SnippetController {
         return this.snippetService.getSnippetLocation(snippetId)
     }
 
-    @GetMapping("/byWriter")
+    @GetMapping("/byWriter/{userId}/{page}/{size}")
     fun getSnippetByWriter(
-        @RequestParam(value = "userId", required = true) writerId: String,
-        @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "5") size: Int,
+        @PathVariable(value = "userId", required = true) writerId: String,
+        @PathVariable(value = "page", required = true) page: Int,
+        @PathVariable(value = "size", required = true) size: Int,
     ): ResponseEntity<Page<SnippetDTO>> {
         return this.snippetService.getSnippetFromWriterById(writerId, page, size)
     }
 
-    @GetMapping("/byReader")
+    @GetMapping("/byReader/{userId}/{page}/{size}")
     fun getSnippetByReader(
-        @RequestParam(value = "userId", required = true) readerId: String,
-        @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "5") size: Int,
+        @PathVariable(value = "userId", required = true) readerId: String,
+        @PathVariable(value = "page", required = true) page: Int,
+        @PathVariable(value = "size", required = true) size: Int,
     ): ResponseEntity<Page<SnippetDTO>> {
         return this.snippetService.getSnippetByReaderById(readerId, page, size)
     }
 
-    @GetMapping("/byReaderAndWriter")
+    @GetMapping("/byReaderAndWriter/{userId}/{page}/{size}")
     fun getSnippetByReaderOrWriter(
-        @RequestParam(value = "userId", required = true) userId: String,
-        @RequestParam(value = "page", defaultValue = "0") page: Int,
-        @RequestParam(value = "size", defaultValue = "5") size: Int,
+        @PathVariable(value = "userId", required = true) userId: String,
+        @PathVariable(value = "page", required = true) page: Int,
+        @PathVariable(value = "size", required = true) size: Int,
     ): ResponseEntity<Page<SnippetDTO>> {
         return this.snippetService.getSnippetByReadeAndWriterById(userId, page, size)
     }
