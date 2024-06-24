@@ -35,6 +35,21 @@ class SnippetService(
             .body(this.dto(creation))
     }
 
+    fun addReader(snippetId: Long, userId: String, readerId: String): ResponseEntity<Boolean> {
+        if (this.snippetRepository.existsById(snippetId)) {
+            val snippet = this.snippetRepository.findById(snippetId).get()
+            if (snippet.writer.equals(userId) && !snippet.writer.equals(readerId)) { // User must be writer and not a reader
+                val readers = snippet.readers
+                if (!readers.contains(readerId)) { // if reader is not in there
+                    readers.add(readerId)
+                }
+                this.snippetRepository.save(snippet)
+                return ResponseEntity.ok().build()
+            }
+        }
+        return ResponseEntity.badRequest().build()
+    }
+
     fun getSnippet(snippetId: Long): ResponseEntity<SnippetDTO> {
         return when {
             snippetRepository.existsById(snippetId) -> {
