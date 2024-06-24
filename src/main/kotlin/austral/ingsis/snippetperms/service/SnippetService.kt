@@ -35,7 +35,11 @@ class SnippetService(
             .body(this.dto(creation))
     }
 
-    fun addReader(snippetId: Long, userId: String, readerId: String): ResponseEntity<Boolean> {
+    fun addReader(
+        snippetId: Long,
+        userId: String,
+        readerId: String,
+    ): ResponseEntity<Boolean> {
         if (this.snippetRepository.existsById(snippetId)) {
             val snippet = this.snippetRepository.findById(snippetId).get()
             if (snippet.writer.equals(userId) && !snippet.writer.equals(readerId)) { // User must be writer and not a reader

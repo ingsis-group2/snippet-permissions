@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.filter.RequestContextFilter
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
 
 @Controller
 @RequestMapping("/snippet")
@@ -38,7 +36,7 @@ class SnippetController {
     fun addReaderIntoSnippet(
         @PathVariable("snippetId", required = true) snippetId: Long,
         @PathVariable("userId", required = true) userId: String,
-        @PathVariable("readerId", required = true) readerId: String
+        @PathVariable("readerId", required = true) readerId: String,
     ): ResponseEntity<Boolean> {
         return this.snippetService.addReader(snippetId, userId, readerId)
     }
