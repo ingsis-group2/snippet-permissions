@@ -1,6 +1,10 @@
 package austral.ingsis.snippetperms.controller
 
-import austral.ingsis.snippetperms.model.*
+import austral.ingsis.snippetperms.model.GetterForm
+import austral.ingsis.snippetperms.model.NewReaderForm
+import austral.ingsis.snippetperms.model.SnippetCreate
+import austral.ingsis.snippetperms.model.SnippetDTO
+import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.service.SnippetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -13,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
@@ -60,7 +63,7 @@ class SnippetController {
 
     @PostMapping("/byReader")
     fun getSnippetByReader(
-        @RequestBody form: GetterForm
+        @RequestBody form: GetterForm,
     ): ResponseEntity<Page<SnippetDTO>> {
         return this.snippetService.getSnippetByReaderById(form.userId, form.page, form.size)
     }

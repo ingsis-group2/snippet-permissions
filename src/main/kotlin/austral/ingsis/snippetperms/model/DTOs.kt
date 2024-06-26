@@ -32,7 +32,7 @@ data class NewReaderForm(
     val readerId: String,
 )
 
-data class GetterForm (
+data class GetterForm(
     val userId: String,
     val page: Int,
     val size: Int,
