@@ -32,4 +32,10 @@ data class NewReaderForm(
     val readerId: String,
 )
 
+data class GetterForm(
+    val userId: String,
+    val page: Int,
+    val size: Int,
+)
+
 data class SnippetUpdate(val reader: String)
