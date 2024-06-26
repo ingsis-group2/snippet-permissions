@@ -1,5 +1,6 @@
 package austral.ingsis.snippetperms.controller
 
+import austral.ingsis.snippetperms.model.NewReaderForm
 import austral.ingsis.snippetperms.model.SnippetCreate
 import austral.ingsis.snippetperms.model.SnippetDTO
 import austral.ingsis.snippetperms.model.SnippetLocation
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
@@ -32,13 +32,11 @@ class SnippetController {
         return resp
     }
 
-    @PutMapping("/addReader/{snippetId}/{userId}/{readerId}")
+    @PostMapping("/addReader")
     fun addReaderIntoSnippet(
-        @PathVariable("snippetId", required = true) snippetId: Long,
-        @PathVariable("userId", required = true) userId: String,
-        @PathVariable("readerId", required = true) readerId: String,
+        @RequestBody form: NewReaderForm,
     ): ResponseEntity<Boolean> {
-        return this.snippetService.addReader(snippetId, userId, readerId)
+        return this.snippetService.addReader(form.snippetId, form.userId, form.readerId)
     }
 
     @GetMapping("/{id}")
