@@ -7,7 +7,6 @@ import austral.ingsis.snippetperms.model.SnippetDTO
 import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.service.SnippetService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -57,21 +56,21 @@ class SnippetController {
     @PostMapping("/byWriter")
     fun getSnippetByWriter(
         @RequestBody form: GetterForm,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return this.snippetService.getSnippetFromWriterById(form.userId, form.page, form.size)
     }
 
     @PostMapping("/byReader")
     fun getSnippetByReader(
         @RequestBody form: GetterForm,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return this.snippetService.getSnippetByReaderById(form.userId, form.page, form.size)
     }
 
     @PostMapping("/byReaderAndWriter")
     fun getSnippetByReaderOrWriter(
         @RequestBody form: GetterForm,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return this.snippetService.getSnippetByReadeAndWriterById(form.userId, form.page, form.size)
     }
 

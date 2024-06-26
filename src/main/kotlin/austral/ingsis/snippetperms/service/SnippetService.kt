@@ -6,7 +6,6 @@ import austral.ingsis.snippetperms.model.SnippetDTO
 import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.repository.SnippetRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
@@ -81,14 +80,14 @@ class SnippetService(
         writerId: String,
         page: Int,
         size: Int,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return when {
             page < 0 || size < 0 -> ResponseEntity.badRequest().build()
             else -> {
                 val pageRequest: PageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "id")
                 val snippets = snippetRepository.findSnippetsByWriter(writerId, pageRequest)
                 val snippetDTOs = snippets.map { s -> this.dto(s) }
-                return ResponseEntity.ok(snippetDTOs)
+                return ResponseEntity.ok(snippetDTOs.content)
             }
         }
     }
@@ -97,14 +96,14 @@ class SnippetService(
         readerId: String,
         page: Int,
         size: Int,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return when {
             page < 0 || size < 0 -> ResponseEntity.badRequest().build()
             else -> {
                 val pageRequest: PageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "id")
                 val snippets = snippetRepository.findSnippetsByReader(readerId, pageRequest)
                 val snippetDTOs = snippets.map { s -> this.dto(s) }
-                return ResponseEntity.ok(snippetDTOs)
+                return ResponseEntity.ok(snippetDTOs.content)
             }
         }
     }
@@ -113,14 +112,14 @@ class SnippetService(
         userId: String,
         page: Int,
         size: Int,
-    ): ResponseEntity<Page<SnippetDTO>> {
+    ): ResponseEntity<List<SnippetDTO>> {
         return when {
             page < 0 || size < 0 -> ResponseEntity.badRequest().build()
             else -> {
                 val pageRequest: PageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "id")
                 val snippets = snippetRepository.findSnippetsByReaderAndWriter(userId, pageRequest)
                 val snippetDTOs = snippets.map { s -> this.dto(s) }
-                return ResponseEntity.ok(snippetDTOs)
+                return ResponseEntity.ok(snippetDTOs.content)
             }
         }
     }
