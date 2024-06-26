@@ -1,9 +1,6 @@
 package austral.ingsis.snippetperms.controller
 
-import austral.ingsis.snippetperms.model.NewReaderForm
-import austral.ingsis.snippetperms.model.SnippetCreate
-import austral.ingsis.snippetperms.model.SnippetDTO
-import austral.ingsis.snippetperms.model.SnippetLocation
+import austral.ingsis.snippetperms.model.*
 import austral.ingsis.snippetperms.service.SnippetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
@@ -53,31 +51,25 @@ class SnippetController {
         return this.snippetService.getSnippetLocation(snippetId)
     }
 
-    @GetMapping("/byWriter/{userId}/{page}/{size}")
+    @PostMapping("/byWriter")
     fun getSnippetByWriter(
-        @PathVariable(value = "userId", required = true) writerId: String,
-        @PathVariable(value = "page", required = true) page: Int,
-        @PathVariable(value = "size", required = true) size: Int,
+        @RequestBody form: GetterForm,
     ): ResponseEntity<Page<SnippetDTO>> {
-        return this.snippetService.getSnippetFromWriterById(writerId, page, size)
+        return this.snippetService.getSnippetFromWriterById(form.userId, form.page, form.size)
     }
 
-    @GetMapping("/byReader/{userId}/{page}/{size}")
+    @PostMapping("/byReader")
     fun getSnippetByReader(
-        @PathVariable(value = "userId", required = true) readerId: String,
-        @PathVariable(value = "page", required = true) page: Int,
-        @PathVariable(value = "size", required = true) size: Int,
+        @RequestBody form: GetterForm
     ): ResponseEntity<Page<SnippetDTO>> {
-        return this.snippetService.getSnippetByReaderById(readerId, page, size)
+        return this.snippetService.getSnippetByReaderById(form.userId, form.page, form.size)
     }
 
-    @GetMapping("/byReaderAndWriter/{userId}/{page}/{size}")
+    @PostMapping("/byReaderAndWriter")
     fun getSnippetByReaderOrWriter(
-        @PathVariable(value = "userId", required = true) userId: String,
-        @PathVariable(value = "page", required = true) page: Int,
-        @PathVariable(value = "size", required = true) size: Int,
+        @RequestBody form: GetterForm,
     ): ResponseEntity<Page<SnippetDTO>> {
-        return this.snippetService.getSnippetByReadeAndWriterById(userId, page, size)
+        return this.snippetService.getSnippetByReadeAndWriterById(form.userId, form.page, form.size)
     }
 
     @DeleteMapping("/{id}")
