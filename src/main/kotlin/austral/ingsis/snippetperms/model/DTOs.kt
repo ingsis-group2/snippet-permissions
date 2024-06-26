@@ -26,4 +26,10 @@ data class SnippetLocation(
     val container: String,
 )
 
+data class NewReaderForm(
+    val snippetId: Long,
+    val userId: String,
+    val readerId: String,
+)
+
 data class SnippetUpdate(val reader: String)

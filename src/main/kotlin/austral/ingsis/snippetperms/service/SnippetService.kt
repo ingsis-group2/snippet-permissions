@@ -46,8 +46,8 @@ class SnippetService(
                 val readers = snippet.readers
                 if (!readers.contains(readerId)) { // if reader is not in there
                     readers.add(readerId)
+                    this.snippetRepository.save(snippet)
                 }
-                this.snippetRepository.save(snippet)
                 return ResponseEntity.ok().build()
             }
         }
