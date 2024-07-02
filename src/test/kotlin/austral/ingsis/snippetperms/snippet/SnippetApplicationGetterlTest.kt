@@ -4,7 +4,6 @@ import austral.ingsis.snippetperms.SnippetTestApplication
 import austral.ingsis.snippetperms.model.GetterForm
 import austral.ingsis.snippetperms.model.NewReaderForm
 import austral.ingsis.snippetperms.model.Snippet
-import austral.ingsis.snippetperms.model.SnippetDTO
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.type.TypeReference
@@ -31,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-class SnippetServiceGetAllTest {
+class SnippetApplicationGetterlTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc

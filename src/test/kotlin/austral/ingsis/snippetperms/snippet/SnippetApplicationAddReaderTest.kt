@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-class SnippetControllerAddReader {
+class SnippetApplicationAddReaderTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
