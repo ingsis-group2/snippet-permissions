@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional
 @ActiveProfiles("test")
 @Transactional
 class SnippetApplicationAddReaderTest {
-
     @Autowired
     private lateinit var mockMvc: MockMvc
 
@@ -37,7 +38,8 @@ class SnippetApplicationAddReaderTest {
 
     @BeforeEach
     fun beforeEach() {
-        val snippetCreateJson = """
+        val snippetCreateJson =
+            """
             {
                 "writer": "testWriter",
                 "name": "testName",
@@ -54,47 +56,53 @@ class SnippetApplicationAddReaderTest {
         entityManager.flush() // Forzar el flush para asegurar que se apliquen los cambios
     }
 
-    data class SnippetDTO @JsonCreator constructor(
-        @JsonProperty("id") val id: Long,
-        @JsonProperty("container") val container: String,
-        @JsonProperty("writer") val writer: String,
-        @JsonProperty("name") val name: String,
-        @JsonProperty("language") val language: String,
-        @JsonProperty("extension") val extension: String,
-        @JsonProperty("readers") val readers: List<String>,
-        @JsonProperty("creationDate") val creationDate: String,
-        @JsonProperty("updateDate") val updateDate: String?
-    )
+    data class SnippetDTO
+        @JsonCreator
+        constructor(
+            @JsonProperty("id") val id: Long,
+            @JsonProperty("container") val container: String,
+            @JsonProperty("writer") val writer: String,
+            @JsonProperty("name") val name: String,
+            @JsonProperty("language") val language: String,
+            @JsonProperty("extension") val extension: String,
+            @JsonProperty("readers") val readers: List<String>,
+            @JsonProperty("creationDate") val creationDate: String,
+            @JsonProperty("updateDate") val updateDate: String?,
+        )
 
-    private fun sendRequestAndReturn(snippetCreateJson: String, url: String): MvcResult {
+    private fun sendRequestAndReturn(
+        snippetCreateJson: String,
+        url: String,
+    ): MvcResult {
         return mockMvc.perform(
             post("http://localhost:8080/$url")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(snippetCreateJson)
+                .content(snippetCreateJson),
         ).andReturn()
     }
 
     @Test
     fun `should add reader into existing snippet on database`() {
-        val first_query = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
-        first_query.maxResults = 1
-        val snippetFromDB = first_query.resultList.firstOrNull()
+        val firstQuery = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
+        firstQuery.maxResults = 1
+        val snippetFromDB = firstQuery.resultList.firstOrNull()
         val id = snippetFromDB?.id
-        val readerForm = NewReaderForm(
-            id!!,
-            "testWriter",
-            "testReader"
-        )
+        val readerForm =
+            NewReaderForm(
+                id!!,
+                "testWriter",
+                "testReader",
+            )
         val objectMapper = ObjectMapper()
         val jsonContent = objectMapper.writeValueAsString(readerForm)
         val result = this.sendRequestAndReturn(jsonContent, "/snippet/addReader")
         assertEquals(HttpStatus.OK.value(), result.response.status)
 
-        val second_query = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
-        second_query.maxResults = 1
-        second_query.setParameter("id", id)
-        val updated_snippet = second_query.resultList.firstOrNull()
-        val readers = updated_snippet?.readers?.toList() as List<String>
+        val secondQuery = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
+        secondQuery.maxResults = 1
+        secondQuery.setParameter("id", id)
+        val updatedSnippet = secondQuery.resultList.firstOrNull()
+        val readers = updatedSnippet?.readers?.toList() as List<String>
 
         assertNotNull(readers)
         assertEquals(readers.size, 1)
@@ -103,25 +111,26 @@ class SnippetApplicationAddReaderTest {
 
     @Test
     fun `should fail add reader into existing snippet on database where reader is writer`() {
-        val first_query = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
-        first_query.maxResults = 1
-        val snippetFromDB = first_query.resultList.firstOrNull()
+        val firstQuery = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
+        firstQuery.maxResults = 1
+        val snippetFromDB = firstQuery.resultList.firstOrNull()
         val id = snippetFromDB?.id
-        val readerForm = NewReaderForm(
-            id!!,
-            "testWriter",
-            "testWriter"
-        )
+        val readerForm =
+            NewReaderForm(
+                id!!,
+                "testWriter",
+                "testWriter",
+            )
         val objectMapper = ObjectMapper()
         val jsonContent = objectMapper.writeValueAsString(readerForm)
         val result = this.sendRequestAndReturn(jsonContent, "/snippet/addReader")
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.response.status)
 
-        val second_query = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
-        second_query.maxResults = 1
-        second_query.setParameter("id", id)
-        val updated_snippet = second_query.resultList.firstOrNull()
-        val readers = updated_snippet?.readers?.toList() as List<String>
+        val secondQuery = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
+        secondQuery.maxResults = 1
+        secondQuery.setParameter("id", id)
+        val updatedSnippet = secondQuery.resultList.firstOrNull()
+        val readers = updatedSnippet?.readers?.toList() as List<String>
 
         assertNotNull(readers)
         assertTrue(readers.isEmpty())
@@ -131,12 +140,13 @@ class SnippetApplicationAddReaderTest {
     fun `should fail add reader into non existing snippet on database`() {
         val maxIdQuery = entityManager.createQuery("SELECT MAX(s.id) FROM Snippet s")
         val maxId = maxIdQuery.singleResult as Long
-        val nonExistentId = maxId + 1000L  //for sure id does not exists
-        val readerForm = NewReaderForm(
-            nonExistentId,
-            "testWriter",
-            "testWriter"
-        )
+        val nonExistentId = maxId + 1000L // for sure id does not exists
+        val readerForm =
+            NewReaderForm(
+                nonExistentId,
+                "testWriter",
+                "testWriter",
+            )
         val objectMapper = ObjectMapper()
         val jsonContent = objectMapper.writeValueAsString(readerForm)
         val result = this.sendRequestAndReturn(jsonContent, "/snippet/addReader")
@@ -145,25 +155,26 @@ class SnippetApplicationAddReaderTest {
 
     @Test
     fun `should fail add reader into snippet with invalid writer`() {
-        val first_query = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
-        first_query.maxResults = 1
-        val snippetFromDB = first_query.resultList.firstOrNull()
+        val firstQuery = entityManager.createQuery("SELECT s FROM Snippet s ORDER BY s.id ASC", Snippet::class.java)
+        firstQuery.maxResults = 1
+        val snippetFromDB = firstQuery.resultList.firstOrNull()
         val id = snippetFromDB?.id
-        val readerForm = NewReaderForm(
-            id!!,
-            "testReader",
-            "testReader"
-        )
+        val readerForm =
+            NewReaderForm(
+                id!!,
+                "testReader",
+                "testReader",
+            )
         val objectMapper = ObjectMapper()
         val jsonContent = objectMapper.writeValueAsString(readerForm)
         val result = this.sendRequestAndReturn(jsonContent, "/snippet/addReader")
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.response.status)
 
-        val second_query = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
-        second_query.maxResults = 1
-        second_query.setParameter("id", id)
-        val updated_snippet = second_query.resultList.firstOrNull()
-        val readers = updated_snippet?.readers?.toList() as List<String>
+        val secondQuery = entityManager.createQuery("SELECT s FROM Snippet s WHERE s.id = :id", Snippet::class.java)
+        secondQuery.maxResults = 1
+        secondQuery.setParameter("id", id)
+        val updatedSnippet = secondQuery.resultList.firstOrNull()
+        val readers = updatedSnippet?.readers?.toList() as List<String>
 
         assertNotNull(readers)
         assertTrue(readers.isEmpty())
