@@ -31,6 +31,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("com.h2database:h2:2.2.224")
 }
 
 tasks.withType<KotlinCompile> {
@@ -52,7 +53,7 @@ tasks.named("check") {
 koverReport {
     verify {
         rule {
-            minBound(0)
+            minBound(80)
         }
     }
 }
