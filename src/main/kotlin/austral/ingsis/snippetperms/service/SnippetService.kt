@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class SnippetService(
     @Autowired var snippetRepository: SnippetRepository,
+    @Autowired var lintStatusService: LintStatusService,
 ) {
     /*
         Creates a snippet for an existing user
@@ -30,6 +31,7 @@ class SnippetService(
             }
 
         val creation = snippetRepository.save(snippet)
+        lintStatusService.createLintStatus(snippet)
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(this.dto(creation))
     }
@@ -129,6 +131,7 @@ class SnippetService(
             snippetRepository.existsById(snippetId) -> {
                 val snippet = this.snippetRepository.findById(snippetId).get()
                 this.snippetRepository.deleteById(snippetId)
+                this.lintStatusService.deleteLintStatusBySnippetId(snippetId)
                 return ResponseEntity
                     .ok(SnippetLocation(snippet.id, snippet.container))
             }

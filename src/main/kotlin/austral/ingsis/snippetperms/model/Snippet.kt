@@ -1,6 +1,7 @@
 package austral.ingsis.snippetperms.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import jakarta.persistence.CascadeType
 import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
@@ -9,6 +10,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 
