@@ -1,5 +1,6 @@
 package austral.ingsis.snippetperms.controller
 
+import austral.ingsis.snippetperms.SnippetService
 import austral.ingsis.snippetperms.model.GetterForm
 import austral.ingsis.snippetperms.model.NewReaderForm
 import austral.ingsis.snippetperms.model.SnippetCreate
