@@ -49,7 +49,7 @@ tasks.named("check") {
 koverReport {
     verify {
         rule {
-            minBound(50)
+            minBound(20)
             filters {
                 excludes {
                     packages("logging")

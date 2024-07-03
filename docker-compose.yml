@@ -11,6 +11,7 @@ services:
     env_file:
       - .env
     environment:
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_KEY}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: compose-db
