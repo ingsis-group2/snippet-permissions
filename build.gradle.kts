@@ -52,8 +52,8 @@ koverReport {
             minBound(50)
             filters {
                 excludes {
-                    packages("logging")
-                    packages("newrelic")
+                    packages("austral.ingsis.snippetperms.logging")
+                    packages("austral.ingsis.snippetperms.newrelic")
                 }
             }
         }
