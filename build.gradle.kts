@@ -49,10 +49,11 @@ tasks.named("check") {
 koverReport {
     verify {
         rule {
-            minBound(20)
+            minBound(50)
             filters {
                 excludes {
                     packages("logging")
+                    packages("newrelic")
                 }
             }
         }
