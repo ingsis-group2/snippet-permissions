@@ -75,9 +75,9 @@ class LintStatusService (
             .orElseThrow { RuntimeException("LintStatus not found with id $id") }
         var newStatus = "compliant"
         if (errors.isNotEmpty()) {
-            newStatus = "error"
+            newStatus = "failed"
         } else if (reportList.isNotEmpty()) {
-            newStatus = "not_compliant"
+            newStatus = "not compliant"
         }
         lintStatus.status = newStatus
         val updatedLintStatus = lintStatusRepository.save(lintStatus)

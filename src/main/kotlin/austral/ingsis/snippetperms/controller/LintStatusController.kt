@@ -2,11 +2,14 @@ package austral.ingsis.snippetperms.controller
 
 import austral.ingsis.snippetperms.model.LintStatusDTO
 import austral.ingsis.snippetperms.model.CreateLintStatusDTO
+import austral.ingsis.snippetperms.model.GetLintStatusDTO
 import austral.ingsis.snippetperms.model.UpdateLintingStatusDTO
 import austral.ingsis.snippetperms.service.LintStatusService
+import jakarta.persistence.Id
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -34,6 +37,14 @@ class LintStatusController {
             updateLintStatus.reportList,
             updateLintStatus.errors
         )
+        return resp
+    }
+
+    @GetMapping("/getFromSnippetId")
+    fun getLintStatusFromSnippetId(
+        @RequestBody getLintStatus: GetLintStatusDTO
+    ) : ResponseEntity<LintStatusDTO>{
+        val resp = lintStatusService.getLintStatusBySnippetId(getLintStatus.snippetId)
         return resp
     }
 
