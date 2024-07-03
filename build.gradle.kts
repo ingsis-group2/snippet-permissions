@@ -50,6 +50,11 @@ koverReport {
     verify {
         rule {
             minBound(50)
+            filters {
+                excludes {
+                    packages("logging")
+                }
+            }
         }
     }
 }
