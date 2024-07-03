@@ -21,13 +21,17 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.postgresql:postgresql:42.7.3")
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("com.h2database:h2:2.2.224")
 }
 
 tasks.withType<KotlinCompile> {
@@ -49,7 +53,7 @@ tasks.named("check") {
 koverReport {
     verify {
         rule {
-            minBound(50)
+            minBound(80)
             filters {
                 excludes {
                     packages("austral.ingsis.snippetperms.logging")
