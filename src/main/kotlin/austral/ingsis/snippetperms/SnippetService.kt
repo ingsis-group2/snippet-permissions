@@ -1,4 +1,4 @@
-package austral.ingsis.snippetperms.service
+package austral.ingsis.snippetperms
 
 import austral.ingsis.snippetperms.model.Snippet
 import austral.ingsis.snippetperms.model.SnippetCreate
