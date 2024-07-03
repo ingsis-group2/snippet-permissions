@@ -10,36 +10,36 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
-
 @Service
-class LintStatusService (
+class LintStatusService(
     @Autowired var lintStatusRepository: LintStatusRepository,
-    @Autowired var snippetRepository: SnippetRepository
+    @Autowired var snippetRepository: SnippetRepository,
 ) {
-
-    fun createLintStatus(snippet: Snippet) : ResponseEntity<LintStatusDTO> {
-        //checking if there is not a lint status already created for this snippet
-        if(getLintStatusBySnippetId(snippet.id).statusCode.is2xxSuccessful) {
+    fun createLintStatus(snippet: Snippet): ResponseEntity<LintStatusDTO> {
+        // checking if there is not a lint status already created for this snippet
+        if (getLintStatusBySnippetId(snippet.id).statusCode.is2xxSuccessful) {
             return ResponseEntity.badRequest().build()
         }
-        val lintStatus = LintStatus().apply {
-            this.snippet = snippet
-            this.status = "pending"
-        }
+        val lintStatus =
+            LintStatus().apply {
+                this.snippet = snippet
+                this.status = "pending"
+            }
         val creation = lintStatusRepository.save(lintStatus)
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(this.lintStatusDTO(creation))
     }
 
-    fun createLintStatusFromSnippetId(snippetId: Long) : ResponseEntity<LintStatusDTO> {
-        //get snippet from id
-        val snippet = snippetRepository.findById(snippetId)
-            .orElseThrow { RuntimeException("Snippet not found with id $snippetId") }
+    fun createLintStatusFromSnippetId(snippetId: Long): ResponseEntity<LintStatusDTO> {
+        // get snippet from id
+        val snippet =
+            snippetRepository.findById(snippetId)
+                .orElseThrow { RuntimeException("Snippet not found with id $snippetId") }
         return createLintStatus(snippet)
     }
 
     fun deleteLintStatusById(lintStatusId: Long): ResponseEntity<Boolean> {
-        //check if lint status exists
+        // check if lint status exists
         if (lintStatusRepository.existsById(lintStatusId)) {
             lintStatusRepository.deleteById(lintStatusId)
             return ResponseEntity.ok().build()
@@ -48,7 +48,7 @@ class LintStatusService (
     }
 
     fun deleteLintStatusBySnippetId(snippetId: Long): ResponseEntity<Boolean> {
-        //check if there is a lint status that belongs to the snippet
+        // check if there is a lint status that belongs to the snippet
         val lintStatus = lintStatusRepository.findBySnippetId(snippetId)
         if (lintStatus != null) {
             lintStatusRepository.deleteById(lintStatus.id)
@@ -70,9 +70,14 @@ class LintStatusService (
         return ResponseEntity.ok().body(lintStatuses.map { this.lintStatusDTO(it) })
     }
 
-    fun modifyLintStatus(id: Long, reportList: List<String>, errors: List<String>) : ResponseEntity<LintStatusDTO> {
-        val lintStatus = lintStatusRepository.findById(id)
-            .orElseThrow { RuntimeException("LintStatus not found with id $id") }
+    fun modifyLintStatus(
+        id: Long,
+        reportList: List<String>,
+        errors: List<String>,
+    ): ResponseEntity<LintStatusDTO> {
+        val lintStatus =
+            lintStatusRepository.findById(id)
+                .orElseThrow { RuntimeException("LintStatus not found with id $id") }
         var newStatus = "compliant"
         if (errors.isNotEmpty()) {
             newStatus = "failed"
@@ -85,11 +90,11 @@ class LintStatusService (
             .body(this.lintStatusDTO(updatedLintStatus))
     }
 
-    private fun lintStatusDTO(lintStatus: LintStatus) : LintStatusDTO {
+    private fun lintStatusDTO(lintStatus: LintStatus): LintStatusDTO {
         return LintStatusDTO(
             lintStatus.id,
             getSnippetId(lintStatus.snippet),
-            lintStatus.status
+            lintStatus.status,
         )
     }
 
