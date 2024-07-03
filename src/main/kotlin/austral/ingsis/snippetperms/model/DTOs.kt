@@ -39,3 +39,23 @@ data class GetterForm(
 )
 
 data class SnippetUpdate(val reader: String)
+
+data class LintStatusDTO(
+    val id: Long,
+    val snippetId: Long,
+    val status: String,
+)
+
+data class CreateLintStatusDTO(
+    val snippetId: Long,
+)
+
+data class UpdateLintingStatusDTO(
+    val id: Long,
+    val reportList: List<String>,
+    val errors: List<String>,
+)
+
+data class GetLintStatusDTO(
+    val snippetId: Long,
+)
