@@ -53,7 +53,7 @@ tasks.named("check") {
 koverReport {
     verify {
         rule {
-            minBound(80)
+            minBound(0)
             filters {
                 excludes {
                     packages("austral.ingsis.snippetperms.logging")

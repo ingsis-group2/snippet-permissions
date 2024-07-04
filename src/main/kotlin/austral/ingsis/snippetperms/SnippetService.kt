@@ -5,6 +5,7 @@ import austral.ingsis.snippetperms.model.SnippetCreate
 import austral.ingsis.snippetperms.model.SnippetDTO
 import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.repository.SnippetRepository
+import austral.ingsis.snippetperms.service.LintStatusService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 class SnippetService(
     @Autowired var snippetRepository: SnippetRepository,
+    @Autowired var lintStatusService: LintStatusService,
 ) {
     /*
         Creates a snippet for an existing user
@@ -30,6 +32,7 @@ class SnippetService(
             }
 
         val creation = snippetRepository.save(snippet)
+        lintStatusService.createLintStatus(snippet)
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(this.dto(creation))
     }
@@ -129,6 +132,7 @@ class SnippetService(
             snippetRepository.existsById(snippetId) -> {
                 val snippet = this.snippetRepository.findById(snippetId).get()
                 this.snippetRepository.deleteById(snippetId)
+                this.lintStatusService.deleteLintStatusBySnippetId(snippetId)
                 return ResponseEntity
                     .ok(SnippetLocation(snippet.id, snippet.container))
             }

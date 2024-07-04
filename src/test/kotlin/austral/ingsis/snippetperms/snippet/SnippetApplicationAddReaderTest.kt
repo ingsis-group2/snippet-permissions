@@ -52,6 +52,7 @@ class SnippetApplicationAddReaderTest {
 
     @AfterEach
     fun cleanup() {
+        entityManager.createQuery("DELETE FROM LintStatus").executeUpdate()
         entityManager.createQuery("DELETE FROM Snippet").executeUpdate() // Ejecutar dentro de la transacción
         entityManager.flush() // Forzar el flush para asegurar que se apliquen los cambios
     }
