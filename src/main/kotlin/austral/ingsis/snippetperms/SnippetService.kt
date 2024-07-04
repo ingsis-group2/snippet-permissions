@@ -131,8 +131,8 @@ class SnippetService(
         return when {
             snippetRepository.existsById(snippetId) -> {
                 val snippet = this.snippetRepository.findById(snippetId).get()
-                this.snippetRepository.deleteById(snippetId)
                 this.lintStatusService.deleteLintStatusBySnippetId(snippetId)
+                this.snippetRepository.deleteById(snippetId)
                 return ResponseEntity
                     .ok(SnippetLocation(snippet.id, snippet.container))
             }

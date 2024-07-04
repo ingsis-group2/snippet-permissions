@@ -57,10 +57,6 @@ class LintStatusService(
         return ResponseEntity.badRequest().build()
     }
 
-    fun getLintStatusBySnippetsIds(snippetIds: List<Long>): ResponseEntity<List<LintStatusDTO>> {
-        val lintStatuses = lintStatusRepository.findLintStatusBySnippetIds(snippetIds)
-        return ResponseEntity.ok().body(lintStatuses.map { this.lintStatusDTO(it) })
-    }
 
     fun modifyLintStatus(
         id: Long,
