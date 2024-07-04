@@ -63,8 +63,8 @@ class LintStatusService(
         errors: List<String>,
     ): ResponseEntity<LintStatusDTO> {
         val lintStatus =
-            lintStatusRepository.findById(id)
-                .orElseThrow { RuntimeException("LintStatus not found with id $id") }
+            lintStatusRepository.findBySnippetId(id)
+                ?: return ResponseEntity.badRequest().build()
         var newStatus = "compliant"
         if (errors.isNotEmpty()) {
             newStatus = "failed"
