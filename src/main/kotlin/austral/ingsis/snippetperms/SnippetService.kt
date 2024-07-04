@@ -5,6 +5,7 @@ import austral.ingsis.snippetperms.model.SnippetCreate
 import austral.ingsis.snippetperms.model.SnippetDTO
 import austral.ingsis.snippetperms.model.SnippetLocation
 import austral.ingsis.snippetperms.repository.SnippetRepository
+import austral.ingsis.snippetperms.service.LintStatusService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
