@@ -55,7 +55,3 @@ data class UpdateLintingStatusDTO(
     val reportList: List<String>,
     val errorList: List<String>,
 )
-
-data class GetLintStatusDTO(
-    val snippetId: Long,
-)
