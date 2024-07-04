@@ -57,7 +57,6 @@ class LintStatusService(
         return ResponseEntity.badRequest().build()
     }
 
-
     fun modifyLintStatus(
         id: Long,
         reportList: List<String>,
