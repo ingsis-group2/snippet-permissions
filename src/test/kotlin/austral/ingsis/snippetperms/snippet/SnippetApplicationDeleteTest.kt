@@ -83,6 +83,7 @@ class SnippetApplicationDeleteTest {
 
     @AfterEach
     fun cleanup() {
+        entityManager.createQuery("DELETE FROM LintStatus").executeUpdate()
         entityManager.createQuery("DELETE FROM Snippet").executeUpdate()
         entityManager.flush()
     }
