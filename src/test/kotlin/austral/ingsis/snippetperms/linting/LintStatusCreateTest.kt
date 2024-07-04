@@ -119,9 +119,9 @@ class LintStatusCreateTest {
         val oldLintStatus = mapper.readValue(lintStatusBody, LintStatusDTO::class.java)
         val updateStatus =
             UpdateLintingStatusDTO(
-                id = oldLintStatus.id,
-                reportList = emptyList(),
-                errors = emptyList(),
+                oldLintStatus.snippetId,
+                emptyList(),
+                emptyList(),
             )
         val body = mapper.writeValueAsString(updateStatus)
         val result =
