@@ -21,12 +21,15 @@ class LintStatusController {
     fun updateLintStatus(
         @RequestBody updateLintStatus: UpdateLintingStatusDTO,
     ): ResponseEntity<LintStatusDTO> {
+        println("recieved request:")
+        println(updateLintStatus)
         val resp =
             lintStatusService.modifyLintStatus(
                 updateLintStatus.snippetId,
                 updateLintStatus.reportList,
                 updateLintStatus.errorList,
             )
+        println("updating lint status for snippet ${updateLintStatus.snippetId} to ${resp.body?.status}")
         return resp
     }
 
