@@ -51,9 +51,9 @@ data class CreateLintStatusDTO(
 )
 
 data class UpdateLintingStatusDTO(
-    val id: Long,
+    val snippetId: Long,
     val reportList: List<String>,
-    val errors: List<String>,
+    val errorList: List<String>,
 )
 
 data class GetLintStatusDTO(

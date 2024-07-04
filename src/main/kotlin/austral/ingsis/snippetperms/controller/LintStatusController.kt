@@ -32,9 +32,9 @@ class LintStatusController {
     ): ResponseEntity<LintStatusDTO> {
         val resp =
             lintStatusService.modifyLintStatus(
-                updateLintStatus.id,
+                updateLintStatus.snippetId,
                 updateLintStatus.reportList,
-                updateLintStatus.errors,
+                updateLintStatus.errorList,
             )
         return resp
     }
