@@ -30,14 +30,6 @@ class LintStatusService(
             .body(this.lintStatusDTO(creation))
     }
 
-    fun createLintStatusFromSnippetId(snippetId: Long): ResponseEntity<LintStatusDTO> {
-        // get snippet from id
-        val snippet =
-            snippetRepository.findById(snippetId)
-                .orElseThrow { RuntimeException("Snippet not found with id $snippetId") }
-        return createLintStatus(snippet)
-    }
-
     fun deleteLintStatusById(lintStatusId: Long): ResponseEntity<Boolean> {
         // check if lint status exists
         if (lintStatusRepository.existsById(lintStatusId)) {
